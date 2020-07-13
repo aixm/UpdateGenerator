@@ -1,3 +1,4 @@
+/*
 BSD 2-Clause License
 
 Copyright (c) 2020, EUROCONTROL
@@ -23,3 +24,26 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ Project:      aixm-update-gen
+ Created:      24.03.20
+ Author:       Manfred Odenstein, SOLITEC Software Solutions G.m.b.H.
+
+*/
+package com.solitec.aixm.updgen
+
+import java.lang.IllegalArgumentException
+import kotlin.test.Test
+import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
+
+internal class XMLToolTest {
+
+    @Test
+    fun parseXMLDate() {
+        assertTrue(XMLTool.parseXMLDateTime("2020-03-20T12:31:26Z").isValid)
+        assertFailsWith<IllegalArgumentException> {
+            XMLTool.parseXMLDateTime("Something")
+        }
+    }
+}

@@ -1,3 +1,4 @@
+/*
 BSD 2-Clause License
 
 Copyright (c) 2020, EUROCONTROL
@@ -23,3 +24,39 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ Project:      aixm-update-gen
+ Created:      24.03.20
+ Author:       Manfred Odenstein, SOLITEC Software Solutions G.m.b.H.
+
+*/
+package com.solitec.aixm.updgen
+
+import org.w3c.dom.Node
+import java.util.function.Consumer
+import javax.xml.datatype.DatatypeFactory
+import javax.xml.datatype.XMLGregorianCalendar
+
+object XMLTool {
+
+    private val datatypeFactory = DatatypeFactory.newInstance()
+
+    /**
+     * This method parses XMLDateTime instance from the given text in [dateTime].
+     */
+    @Throws(IllegalArgumentException::class)
+    fun parseXMLDateTime(dateTime: String) : XMLGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(dateTime)
+}
+
+/**
+ * This extension method removes all attributes from the Node
+ * @receiver An instance of Node
+ */
+fun Node.removeAllAttributes() {
+    val attributes = this.attributes
+    if (attributes.length > 0) {
+        val range = 0 until attributes.length
+        val list = range.map(attributes::item)
+        list.forEach(Consumer { t -> attributes.removeNamedItemNS(t.namespaceURI, t.localName) })
+    }
+}

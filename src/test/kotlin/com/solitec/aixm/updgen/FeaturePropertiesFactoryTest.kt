@@ -1,3 +1,4 @@
+/*
 BSD 2-Clause License
 
 Copyright (c) 2020, EUROCONTROL
@@ -23,3 +24,29 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ Project:      aixm-update-gen
+ Created:      07.07.20
+ Author:       Manfred Odenstein, SOLITEC Software Solutions G.m.b.H.
+
+*/
+package com.solitec.aixm.updgen
+
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+
+/* 
+ Project:      aixm-update-gen   
+ Created:      07.07.20
+ Author:       Manfred Odenstein
+
+ This code is copyright (c) 2020 SOLITEC Software Solutions G.m.b.H.
+*/
+internal class FeaturePropertiesFactoryTest {
+
+    @Test
+    fun featurePropertiesFor() {
+        val propertiesFor = FeaturePropertiesFactory.propertiesFor("AuthorityForAirspace")
+        assertFalse(propertiesFor.isAfterAnnotation("assignedAirspace"))
+    }
+}
