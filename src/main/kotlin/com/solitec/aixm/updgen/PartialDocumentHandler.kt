@@ -103,8 +103,8 @@ class PartialDocumentHandler(private val receiver: PartialHandler) : DefaultHand
      */
     private fun finalizeElement() {
         val element = this.elementStack.pop()
-        val text = this.characters.toString().trim { it <= ' ' }
-        if (text.isNotEmpty()) {
+        val text = this.characters.toString()
+        if (text.trim { it <= ' ' }.isNotEmpty()) {
             element.textContent = text
         }
     }
