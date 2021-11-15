@@ -1,20 +1,19 @@
 plugins {
-    kotlin("jvm") version "1.3.70"
+    kotlin("jvm") version "1.5.31"
     application
 }
 
 group = "com.solitec.aixm"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("com.github.ajalt:clikt:2.6.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
+    implementation("com.github.ajalt:clikt:2.8.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.31")
 }
 
 tasks {
@@ -34,5 +33,5 @@ tasks.test {
 }
 
 application {
-    mainClassName = "com.solitec.aixm.updgen.MainKt"
+    mainClass.set("com.solitec.aixm.updgen.MainKt")
 }

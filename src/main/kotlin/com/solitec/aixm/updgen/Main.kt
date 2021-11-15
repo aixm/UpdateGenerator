@@ -35,6 +35,7 @@ package com.solitec.aixm.updgen
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.convert
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
 import java.io.BufferedInputStream
@@ -53,6 +54,7 @@ class AixmUpdateGenCLI : CliktCommand(name = "aixm-update-gen", help = """
         XMLTool.parseXMLDateTime(it)
     }
     private val remark by option("-r", "--remark", help = "This text will be placed in the annotation element.")
+    private val flagOmitCorrection by option("-c", "--omit-correction", help = "This instructs the program to not create the correction timeslices.").flag()
     private val inputFile by argument("<INPUT-FILE>", help = "An AIXM 5.1 Basic Message file as input.").file(mustExist = true)
     private val outputFile by argument("<OUTPUT-FILE>", help = "The output file.").file()
 
@@ -60,7 +62,7 @@ class AixmUpdateGenCLI : CliktCommand(name = "aixm-update-gen", help = """
     override fun run() {
         val inputStream = BufferedInputStream(inputFile.inputStream())
         val outputStream = BufferedOutputStream(outputFile.outputStream())
-        val params = GeneratorParams(effectiveDate, remark)
+        val params = GeneratorParams(effectiveDate, remark, flagOmitCorrection)
         try {
             outputStream.use {
                 AIXMUpdateGenerator.execute(inputStream, outputStream, params)

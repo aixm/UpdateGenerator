@@ -7,8 +7,10 @@ aixm-update-gen [OPTIONS] <EFFECTIVE-DATE> <INPUT-FILE> <OUTPUT-FILE>
 ```
 ```
 Options:
-  -r, --remark TEXT  This text will be placed in the annotation element.
-  -h, --help         Show this message and exit
+  -r, --remark TEXT      This text will be placed in the annotation element.
+  -c, --omit-correction  This instructs the program to not create the
+                         correction timeslices.
+  -h, --help             Show this message and exit
 
 Arguments:
   <EFFECTIVE-DATE>  The new effective date, e.g. "2022-12-24T00:00:00Z".

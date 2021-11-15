@@ -134,20 +134,23 @@ class AIXMUpdateGenerator(private val outputStream: OutputStream, private val pa
 
         // clone timeSlice
         val updateTimeSlice = XPathTool.extractNode(feature, """aixm:timeSlice""")
-        val cancelTimeSlice = updateTimeSlice?.cloneNode(true)
 
-        feature.insertBefore(cancelTimeSlice, updateTimeSlice)
+        if (!params.omitCorrections) {
+            val cancelTimeSlice = updateTimeSlice?.cloneNode(true)
 
-        // "cancelation" timeSlice
-        XPathTool.extractNode(cancelTimeSlice!!, """descendant::gml:validTime/gml:TimePeriod/gml:endPosition""")?.also {
-            it.removeAllAttributes()
-            it.textContent = params.effectiveDate.toXMLFormat()
+            feature.insertBefore(cancelTimeSlice, updateTimeSlice)
+
+            // "cancelation" timeSlice
+            XPathTool.extractNode(cancelTimeSlice!!, """descendant::gml:validTime/gml:TimePeriod/gml:endPosition""")?.also {
+                it.removeAllAttributes()
+                it.textContent = params.effectiveDate.toXMLFormat()
+            }
+            XPathTool.extractNode(cancelTimeSlice, """descendant::aixm:correctionNumber""")?.incrementContent()
         }
-        XPathTool.extractNode(cancelTimeSlice, """descendant::aixm:correctionNumber""")?.incrementContent()
 
         // "update" timeSlice
-        regenerateGmlIds(updateTimeSlice)
-        XPathTool.extractNode(updateTimeSlice!!, """descendant::gml:validTime/gml:TimePeriod/gml:beginPosition""")?.also {
+        regenerateGmlIds(updateTimeSlice!!)
+        XPathTool.extractNode(updateTimeSlice, """descendant::gml:validTime/gml:TimePeriod/gml:beginPosition""")?.also {
             it.textContent = params.effectiveDate.toXMLFormat()
         }
 
@@ -272,4 +275,4 @@ class AIXMUpdateGenerator(private val outputStream: OutputStream, private val pa
  * @param effectiveDate The new effective date.
  * @param remark        The optional remark.
  */
-data class GeneratorParams(val effectiveDate: XMLGregorianCalendar, val remark: String?)
+data class GeneratorParams(val effectiveDate: XMLGregorianCalendar, val remark: String?, val omitCorrections: Boolean)
